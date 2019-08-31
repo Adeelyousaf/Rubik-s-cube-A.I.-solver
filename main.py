@@ -1,3 +1,4 @@
+#the code is written by Coding Challenges: http://bit.do/e6c6X
 from vpython import * #for 3D animations and cube
 import random #for randomizing the cube
 import time #for mesuring the solve time and slowing down the cube
@@ -2084,6 +2085,10 @@ def solver():
 #control buttons
 button(bind=randomizer, text="Randomize")
 button(bind=solver, text="Solver")
+scene.append_to_caption('\n\n')
+scene.append_to_caption('<a href="https://www.youtube.com/watch?v=q2vJTjzdNPA&t=1s"><h2>Make sure you check the video on how i did it here</h2></a>')
+scene.append_to_caption('\n')
+scene.append_to_caption('<a href="http://bit.do/e6c6X>"><h2>And sub to my channel for more here</h2></a>')
 scene.append_to_caption('\n\n')
 button(bind=front_rotation_clock, text="Front Clock")
 button(bind=back_rotation_clock, text="Back Clock")
