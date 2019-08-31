@@ -1,6 +1,7 @@
 from vpython import * #for 3D animations and cube
 import random #for randomizing the cube
-import time
+import time #for mesuring the solve time and slowing down the cube
+
 def make_small_cube(colorsidefront, colorsideleft, colorsideright, colorsidedown, colorsideup, colorsideback):
     colorsidefront = colorsidefront
     colorsideleft = colorsideleft
@@ -8,6 +9,7 @@ def make_small_cube(colorsidefront, colorsideleft, colorsideright, colorsidedown
     colorsidedown = colorsidedown
     colorsideup = colorsideup
     colorsideback = colorsideback 
+
     #to color each side of a box i used 6 piramides with different colors
     container = box(pos=vector(0.5,0,0), size=vector(0.99,0.999,0.99), color= vector(0.5,0.5,0.5))
     blue = pyramid(pos=vector(0,0,0), size=vector(0.9,0.9,0.9),color=colorsideleft)
@@ -17,6 +19,7 @@ def make_small_cube(colorsidefront, colorsideleft, colorsideright, colorsidedown
     white = pyramid(pos=vector(0.5,0,-0.5), size=vector(0.9,0.9,0.9), axis=vector(0,0,1), color=colorsideback)
     yellow = pyramid(pos=vector(0.5,0,0.5), size=vector(0.9,0.9,0.9), axis=vector(0,0,-1), color=colorsidefront)
     return compound([container,blue,side2,green,orange,white,yellow])
+
 #with function i made all posible small cubes in a rubiix
 cube1 = make_small_cube(color.blue, color.red, vector(0.5,0.5,0.5), vector(0.5,0.5,0.5), color.white, vector(0.5,0.5,0.5))
 cube2 = make_small_cube(color.blue, vector(0.5,0.5,0.5), vector(0.5,0.5,0.5), vector(0.5,0.5,0.5), color.white, vector(0.5,0.5,0.5))
@@ -46,7 +49,7 @@ cube25 = make_small_cube(vector(0.5,0.5,0.5), vector(0.5,0.5,0.5), vector(0.5,0.
 cube26 = make_small_cube(vector(0.5,0.5,0.5), vector(0.5,0.5,0.5), vector(0.5,0.5,0.5), vector(0.5,0.5,0.5), vector(0.5,0.5,0.5), color.green)
 
 
-#Here I defined classes for different types of small cubes. corners, edges and middels ech one has coordinates and functions that changes coordinates acording to movments
+#Here I defined classes for different types of small cubes. corners, edges, each one has coordinates and functions that changes coordinates acording to movments
 class corner_cube:
     def __init__(self, position, correct_position, name, orientation1, correct_orientation1, orientation2, correct_orientation2, orientation3, correct_orientation3):
         self.position = position
@@ -1187,6 +1190,7 @@ class edge_cube:
             self.name.rotate(angle=1.57079633, axis=vector(0,0,1), origin=vector(0,0,0))
             self.name.pos = self.position
             orientation_changer(self)
+#all positions of the cubes in vectors(x,y,z)
 v1 = vector(0,2,0) 
 v2 = vector(1,2,0)
 v3 = vector(2,2,0)
@@ -1214,6 +1218,7 @@ v24 = vector(1,0,-1)
 v25 = vector(1,0,-2)
 v26 = vector(1,1,-2) 
 
+#all posible orientations of each small cube
 orientwhite = vector(0,1,0)
 orientblue = vector(0,0,1)
 orientyellow = vector(0,-1,0)
@@ -1222,6 +1227,8 @@ orientorange = vector(1,0,0)
 orientgreen = vector(0,0,-1)
 cubes = [cube1, cube2, cube3, cube4, cube5, cube6, cube7, cube8, cube9, cube10, cube11, cube12, cube13, cube14, cube15, cube16, cube17, cube18, cube19, cube20, cube21, cube22, cube23, cube24, cube25, cube26]
 vectors = [v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v21, v22, v23, v24, v25, v26]
+
+#loop for definin small cube positions
 for i in range(len(cubes)):
     cubes[i].pos=vectors[i]
 
@@ -1249,7 +1256,7 @@ c20 = edge_cube(v20,v20,cube20, orientwhite, orientwhite, orientorange, orientor
 c23 = edge_cube(v23,v23,cube23, orientwhite, orientwhite, orientgreen, orientgreen)
 c25 = edge_cube(v25,v25,cube25, orientyellow, orientyellow, orientred, orientred)
 clocks = [c1,c2,c3,c4,c6,c7,c8,c9,c10,c11,c13,c14,c15,c16,c17,c19,c20,c21,c23,c25]
-#All functions forr rotations
+#All functions for rotations
 #time1 = 0.1
 def slider(s):
     time = s
@@ -1336,13 +1343,16 @@ def randomizer():
             back_rotation_clock()
             random_num7 -= 1
         random_num1 -= 1
-    
-
+# 
+#
+#
 #A.I. algorithems to solve a cube
 
-#The cross
+#Firs layer the cross
+
 def solver():
-    start = time.time() 
+    start = time.time() #start mesuring the time to solve the cube
+    #algorithems for solving the cross
     def cross_filler(pos):
         if pos == vector(2,0,-1):
             right_rotation_clock()
@@ -1546,6 +1556,7 @@ def solver():
                 unlocking_for_white_cross(c23.position)
         if c23.orientation1 != c23.correct_orientation1:
             orienting_cross_pieces(c23.position,c23)
+    #first layer algorithems
     def toplayeremaker(pos):
         if pos == vector(2,0,0):
             left_rotation_clock()
@@ -1607,7 +1618,7 @@ def solver():
             back_rotation_counter()
             down_rotation_clock()
             toplayeremaker(name.position)
-
+#first layer A.I.
     while c1.position != c1.correct_position or c21.position != c21.correct_position or c3.position != c3.correct_position or c15.position != c15.correct_position:
         while c1.position != c1.correct_position:
             if c1.position == vector(2,0,0):
@@ -1678,7 +1689,7 @@ def solver():
                 toplayeremaker(c15.position)
         while c15.orientation1 != c15.correct_orientation1:
             correctorientation(c15.position,c15)
-
+    #second layer algorithems
     def algorithem_for_positioning(pos):
         if pos == vector(2,0,-1):
             back_rotation_counter()
@@ -1792,7 +1803,7 @@ def solver():
             back_rotation_counter()
             right_rotation_clock()
             left_rotation_counter()
-
+#second layer A.I
     while c4.position != c4.correct_position or c6.position != c6.correct_position or c19.position != c19.correct_position or c13.position != c13.correct_position:       
         for x in range(6):
             if c4.position != c4.correct_position:
@@ -1848,7 +1859,7 @@ def solver():
             algorithem_for_positioning(vector(0,0,-1))
         if c13.position != c13.correct_position or c13.orientation1 != c13.correct_orientation1:
             algorithem_for_positioning(vector(1,0,0))
-
+    #last layer cross algorithems
     def fruruf():
         front_rotation_clock()
         left_rotation_clock()
@@ -1872,6 +1883,7 @@ def solver():
         down_rotation_clock()
         down_rotation_clock()
         left_rotation_counter()
+    #last layer cross A.I
     if c7.orientation1 != c7.correct_orientation1 or c9.orientation1 != c9.correct_orientation1 or c11.orientation1 != c11.correct_orientation1 or c17.orientation1 != c17.correct_orientation1:
         x = 0
         debug = 0
@@ -1916,6 +1928,7 @@ def solver():
                                 break
                 rururuur()
     corners = [c7,c9,c11,c17]
+#last layer corners
     def ruur():
         left_rotation_clock()
         down_rotation_clock()
@@ -1973,6 +1986,7 @@ def solver():
         left_rotation_clock()
         left_rotation_clock()
         down_rotation_counter()
+    #positioning the last layer corners
     for x in range(5):
         while c9.position != c9.correct_position or c17.position != c17.correct_position or c7.position != c7.correct_position or c11.position != c11.correct_position:
             num_of_correct_corrners = 0
@@ -2048,6 +2062,7 @@ def solver():
         left_rotation_clock()
         left_rotation_clock()
     debug = 0
+    #positioning the last layer edges
     while c8.position != c8.correct_position or c10.position != c10.correct_position or c16.position != c16.correct_position or c25.position != c25.correct_position:
 
         if c8.position != c8.correct_position and c10.position != c10.correct_position and c16.position != c16.correct_position and c25.position != c25.correct_position:
