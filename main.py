@@ -1678,6 +1678,7 @@ def solver():
                 toplayeremaker(c15.position)
         while c15.orientation1 != c15.correct_orientation1:
             correctorientation(c15.position,c15)
+
     def algorithem_for_positioning(pos):
         if pos == vector(2,0,-1):
             back_rotation_counter()
@@ -1871,7 +1872,7 @@ def solver():
         down_rotation_clock()
         down_rotation_clock()
         left_rotation_counter()
-    while c7.orientation1 != c7.correct_orientation1 or c9.orientation1 != c9.correct_orientation1 or c11.orientation1 != c11.correct_orientation1 or c17.orientation1 != c17.correct_orientation1:
+    if c7.orientation1 != c7.correct_orientation1 or c9.orientation1 != c9.correct_orientation1 or c11.orientation1 != c11.correct_orientation1 or c17.orientation1 != c17.correct_orientation1:
         x = 0
         debug = 0
         while c8.orientation1 != c8.correct_orientation1 or c10.orientation1 != c10.correct_orientation1 or c16.orientation1 != c16.correct_orientation1 or c25.orientation1 != c25.correct_orientation1:
@@ -1881,8 +1882,10 @@ def solver():
             if x == 4:
                 down_rotation_clock()
                 x = 0
-            if debug  == 20:
+            if debug  == 10:
                 fururf()
+            if debug  == 20:
+                break
         y = 0
         while c7.orientation1 != c7.correct_orientation1 or c9.orientation1 != c9.correct_orientation1 or c11.orientation1 != c11.correct_orientation1 or c17.orientation1 != c17.correct_orientation1:
             if c7.orientation1 != c7.correct_orientation1 and c9.orientation1 != c9.correct_orientation1 and c11.orientation1 != c11.correct_orientation1 and c17.orientation1 != c17.correct_orientation1:
@@ -1974,7 +1977,6 @@ def solver():
         while c9.position != c9.correct_position or c17.position != c17.correct_position or c7.position != c7.correct_position or c11.position != c11.correct_position:
             num_of_correct_corrners = 0
             while num_of_correct_corrners < 2:
-                num_of_correct_corrners = 0
                 down_rotation_clock()
                 for x in range(len(corners)):
                     if corners[x].position == corners[x].correct_position:
@@ -2045,7 +2047,7 @@ def solver():
         down_rotation_clock()
         left_rotation_clock()
         left_rotation_clock()
-    
+    debug = 0
     while c8.position != c8.correct_position or c10.position != c10.correct_position or c16.position != c16.correct_position or c25.position != c25.correct_position:
 
         if c8.position != c8.correct_position and c10.position != c10.correct_position and c16.position != c16.correct_position and c25.position != c25.correct_position:
@@ -2058,21 +2060,15 @@ def solver():
             lastlayer_position2()
         elif c16.position == c16.correct_position:
             lastlayer_position3()
+        debug +=1
+        if debug == 10:
+            break
     end = time.time()
     print(end - start)
-
-def obracaj():
-    full_cube = compound([cube1,cube2, cube3, cube4, cube5, cube6, cube7, cube8, cube9, cube10, cube11, cube12, cube13, cube14, cube15, cube16,cube17, cube18,cube19, cube20,cube21, cube22,cube23,cube24,cube25, cube26])
-    rotation_speed = 0.005
-    obracaj = 0
-    while obracaj == 0:
-        time.sleep(0.03)
-        full_cube.rotate(angle=rotation_speed, axis=vector(1,1,-1), origin=vector(0,0,0))      
-    
+   
 #control buttons
 button(bind=randomizer, text="Randomize")
 button(bind=solver, text="Solver")
-button(bind=obracaj, text="Turne the cube")
 scene.append_to_caption('\n\n')
 button(bind=front_rotation_clock, text="Front Clock")
 button(bind=back_rotation_clock, text="Back Clock")
